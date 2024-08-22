@@ -157,7 +157,7 @@ class ScraperPipeline:
             negative_score = self.calculate_score(tokens, self.negative_words) * -1
             
             adapter['positive_score'] = positive_score
-            adapter['negative_score'] = negative_score
+            adapter['negative_score'] = -negative_score
             adapter['polarity_score'] = self.calculate_polarity_score(positive_score, negative_score)
             adapter['subjectivity_score'] = self.calculate_subjectivity_score(positive_score, negative_score, total_words)
 
