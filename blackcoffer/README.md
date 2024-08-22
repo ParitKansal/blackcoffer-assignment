@@ -1,61 +1,67 @@
-# Blackcoffer Project
+# Blackcoffer Project Setup
 
 ## Step 1 - Select the Python Environment
-Make sure you have the appropriate Python environment activated.
+Activate the appropriate Python environment for this project. Ensure all dependencies are managed within this environment.
 
 ## Step 2 - Clone the Project
-Clone the project from GitHub using the following command:
+Clone the project repository from GitHub using the following command:
 
 ```bash
-git clone https://github.com/ParitKansal/blackcoffer
+git clone https://github.com/ParitKansal/blackcoffer-assignment
 ```
 
 ## Step 3 - Install the Required Python Modules
-Navigate to the project directory and install the required Python modules by running:
+Navigate to the project directory:
+
+```bash
+cd blackcoffer
+```
+
+Install the required Python modules using the `requirements.txt` file:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Step 4 - Run the Project
-After installing the necessary modules, you can run the Python Scrapy Spider as follows:
+## Step 4 - Update `settings.py`
+Ensure that the `blackcoffer/Scraper/settings.py` file is correctly configured:
 
-1. Navigate to the `Scraper` directory:
+1. **For `ScrapeOpsFakeBrowserHeaderAgentMiddleware`:**
 
-    ```bash
-    cd Scraper
-    ```
+   - Add or update the following settings:
+     ```python
+     SCRAPEOPS_API_KEY = 'your_scrapeops_api_key_here'
+     SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT = "https://headers.scrapeops.io/v1/browser-headers"
+     SCRAPEOPS_FAKE_BROWSER_HEADER_ENABLED = True
+     SCRAPEOPS_NUM_RESULTS = 50
+     ```
+   - If you are not using this middleware, comment out or remove the following line from the `DOWNLOADER_MIDDLEWARES` list:
+     ```python
+     'Scraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware': 700,
+     ```
 
-2. View the available spiders:
+2. **For `MyProxyMiddleware`:**
 
-    ```bash
-    scrapy list
-    ```
+   - Add or update the following settings:
+     ```python
+     PROXY_USER = 'your_proxy_user_here'
+     PROXY_PASSWORD = 'your_proxy_password_here'
+     PROXY_ENDPOINT = 'your_proxy_endpoint_here'
+     PROXY_PORT = 'your_proxy_port_here'
+     ```
+   - If you are not using this middleware, comment out or remove the following lines from the `DOWNLOADER_MIDDLEWARES` list:
+     ```python
+     'Scraper.middlewares.MyProxyMiddleware': 610,
+     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 650,
+     ```
 
-3. Run the specific spider (i.e., `websiteSpider`):
+## Step 5 - Run the Project
+Once all the necessary modules are installed and settings are configured, you can run the Scrapy Spider with the following command:
 
-    ```bash
-    scrapy crawl websiteSpider
-    ```
+```bash
+scrapy crawl websiteSpider
+```
 
---- 
-4. Doing setting.py
-    i. For ScrapeOpsFakeBrowserHeaderAgentMiddleware
-          SCRAPEOPS_API_KEY = '8857a1e3-3e44-428f-8809-d6028ba24f0f'
-          SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT = "https://headers.scrapeops.io/v1/browser-headers"
-          SCRAPEOPS_FAKE_BROWSER_HEADER_ENABLED = True
-          SCRAPEOPS_NUM_RESULTS = 50
-     if not present then
-         in DOWNLOADER_MIDDLEWARES list of settings.py
-             comment or remove 'Scraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware': 700,
-ii. For MyProxyMiddleware
-          PROXY_USER = 'bshsdswo-rotate'
-PROXY_PASSWORD = 'tpti8er7yyw6'
-PROXY_ENDPOINT = 'p.webshare.io'
-PROXY_PORT = '80'
-     if not present then
-         in DOWNLOADER_MIDDLEWARES list of settings.py
-             comment or remove 'Scraper.middlewares.MyProxyMiddleware': 610, 
-    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 650,
+---
 
-This should work correctly for running your Scrapy project.
+Make sure to replace placeholder values with actual configuration details specific to your environment and requirements.
